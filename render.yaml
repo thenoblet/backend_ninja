@@ -1,0 +1,18 @@
+databases:
+  - name: backend_project
+    databaseName: db.sqlite3
+    user: noblet
+
+services:
+  - type: web
+    name: mysite
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn mysite.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        value: "sqlite:///:memory:"  # SQLite in-memory database (for local development)
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
